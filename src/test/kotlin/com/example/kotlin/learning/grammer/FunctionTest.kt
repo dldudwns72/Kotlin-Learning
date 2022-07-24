@@ -19,7 +19,7 @@ class FunctionTest {
         println(addFunc(1,2))
     }
 
-    fun addFunc(a : Int, b : Int) : Int {
+    private fun addFunc(a : Int, b : Int) : Int {
         // fun 함수명(변수명 : 타입 ... ) : 리턴타입 {}
         return a+b;
     }
