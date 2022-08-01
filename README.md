@@ -142,3 +142,42 @@ while(index <10){
     index++
 }
 ```
+
+
+## 8. Nullable
+null 값이 가능할 떄 참조는 명시적으로 nullable로 표시되어야 합니다.
+타입 선언시 ? 가 붙는다면 null 할당 가능, 그렇지 않다면 null 허용 불가
+null 확인을 런타임 때가 아닌 컴파일 시점에서 확인한다.
+```kotlin
+var nullable: String? = "null 가능"
+var nonNullable: String = "null 불가능"
+```
+
+### Safe call
+```kotlin
+val notNull: String = "Kotlin"
+val nullable: String? = null
+println(nullable?.length)
+println(notNull?.length) // 불필요한 Safe Call
+
+println(a?.b?.c?.d?.length) // 해당 객체들 중 null이 하나라도 있다면 null 리턴
+```
+
+### 앨비스 연산자 ?:
+null 일 경우 대체 변수를 넣어주는 경우 사용하는 연산자
+```kotlin
+var lastName : String? = null
+val noFullName = name + (lastName ?: " No LastName")
+// lee No LastName
+```
+
+### !! 연산자
+변수가 확실하게 null 이 아닐 경우 사용하는 연산자, null이 아닌것을 보장
+EX) String? 타입을 String 타입에 할당하려 하는 경우 컴파일 에러가 발생하지만 !! 연산자 사용시 컴파일 성공
+```kotlin
+fun ignoreNull(str: String?): String {
+  val mNotNull: String = str!! 
+  // String? 타입인 변수 str이 String 타입인 변수에게 할당하기 위해 null이 아님을 보장하기 위해 !! 사용
+  return mNotNull.uppercase()
+}
+```
