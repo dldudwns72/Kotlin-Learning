@@ -181,3 +181,60 @@ fun ignoreNull(str: String?): String {
   return mNotNull.uppercase()
 }
 ```
+
+## 9. Class
+### 생성방법
+```kotlin
+// 
+(open) class class명(name : String){
+  
+  // 주 생성자
+  init {
+       
+   } 
+  
+  // 부 생성자
+  constructor(val name : String, val age : Int) : this(name){
+      
+  }
+  
+  open fun method명(){
+      
+  }
+}
+```
+1. 코틀린에서 class는 기본적으로 final의 성질을 가지고 있으며 상속을 받기 위해서는 class 앞에 open 명령어를 적어주어야 한다.
+2. class 파라미터에 변수 선언 시 해당 class에서는 선언한 변수를 사용할 수 있다.
+3. init 명령어를 통하여 class의 주 생성자를 선언하여 생성자 역할을 할 수 있다
+4. init 이외의 추가 생성자를 하는 방법으로 constructor 명령어를 사용하여 생성자 추가로 생성 가능 (init이 없다면 constructor으로만 생성자 생성 가능)
+5. constructor 에서 좌측에 this 선언 후 클래스에서 파라미터로 사용하는 변수명을 쓸 경우 해당 변수를 사용 가능
+6. 메소드 선언 시에 해당 메소드를 다른 클래스에서 override 할 경우 open 명령어를 통하여 외부에 노출 가능하도록 해야 한다.
+
+### 상속
+```kotlin
+class 서브클래스 : 슈퍼클래스(){
+    override fun 슈퍼클래스에서사용하는메소드명(){
+        super.슈퍼클래스에서사용하는메소드()
+        super.슈퍼클래스에서사용하는 변수
+        override 해서 선언할 메소드 내용        
+    }
+}
+```
+1. 클래스명 좌측에 :(콜론) 슈퍼클래스명() 선언 시 해당 클래스를 상속받아 사용할 수 있다.
+2. 슈퍼클래스에서 open 명령어를 통해 외부에 노출이 된 클래스만 상속 가능하다
+3. 슈퍼클래스에서 메소드에 open 명령어를 통해 외부에 노출이 된 메소드를 override 하여 재선언 할 수 있다
+4. super 명령어를 통하여 슈퍼 클래스의 메소드와 변수를 사용할 수 있다.
+
+### 사용 방법
+```kotlin
+fun main(){
+    val human1 = Human()
+    val human2 = Human("kim")
+    val human3 = Human("LEE",30)
+  
+    // Human을 확장한 객체
+    val korean = Korea()
+    korean.Human클래스의 메서드
+    korean.Korea클래스의 메서드        
+}
+```
