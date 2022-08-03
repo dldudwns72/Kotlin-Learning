@@ -1,6 +1,7 @@
 package com.example.kotlin.learning.grammer
 
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
 class ConditionalTest {
@@ -68,6 +69,32 @@ class ConditionalTest {
         }
 
         return returnValue
+    }
+
+    @Test
+    @DisplayName("list 에서 요소를 찾아 분기를 타는 경우")
+    fun whileInList(){
+        val list = listOf<String>("aA","bB","cC")
+
+        var returnValue : String
+
+
+//       when{
+//           "A" in list -> returnValue = "에이"
+//           "B" in list -> returnValue = "비"
+//           "C" in list -> returnValue = "씨"
+//           else -> returnValue ="모름"
+//       }
+        // 위와 동일한 문법, 해당 조건을 만족하는것을 찾으면 바로 break 된다.
+        returnValue = when{
+            "A" in list -> "에이"
+            "B" in list -> "비"
+            "C" in list -> "씨"
+            else -> "모름"
+        }
+
+        println(returnValue)
+
     }
 
 
