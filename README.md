@@ -238,3 +238,66 @@ fun main(){
     korean.Korea클래스의 메서드        
 }
 ```
+
+## 람다식 (Lamda)
+ value 처럼 사용할 수 있는 익명 함수
+ 1. 메소드에 파라미터로 람다식을 넘겨줄 수 있다.
+ 2. return 값으로 사용할 수 있다.
+
+### 기본 람다식 정의
+```kotlin
+val lamdaName1 : Type = { argumentList -> codeBody }
+val lamdaName2 = { number : Int -> number * number}
+val lamdaName3 = { name: String, age : Int -> "$name , $age (타입 추론 가능)"}
+ // -> lamdaName("이름", 30) -> 이름, 30 (타입 추론 가능) 
+```
+
+### 확장함수
+```kotlin
+val extendLamda : String.() -> String = {
+    "$this 이것은 람다 확장 함수"
+}
+
+var name = "LEE"
+name.extendLamda() // -> LEE 이것은 람다 확장 함수
+```
+String 객체에 대하여 확장하여 함수를 만들 수 있다 (String.())
+
+```kotlin
+val extendWithAnotherType : String.(Int) -> String = {
+  "$this 다른 파라미터를 받을 수 있다 $it 이것으로"
+}
+var stringThing = "호출 객체"
+var intThing = 10
+stringThing.extendWithAnotherType(intThing)
+// -> 호출 객체 다른 파라미터를 받을 수 있다 10 이것으로
+```
+
+### 람다의 Return
+```kotlin
+val returnLamda : (Type) -> ReturnType = {
+    when(it){ // 파라미터가 한 개일 경우 it 으로 사용 가능하다
+      in ~ -> 리턴값1
+      in ~ -> 리턴값2
+      else -> 해당하는 경우가 없는 경우 리턴값
+    }
+}
+```
+
+### 메서드 안의 람다 
+```kotlin
+// 람다식을 파라미터로 받아 람다식의 리턴값을 리턴한다.
+fun invokeLamda(lamda : (Type) -> Type) : returnType {
+    return lamda(Type)
+}
+
+val lamda = {number : Double -> number == 3.22}
+invokLamda(lamda) // 람다식 선언 후 인자로 사용하여 메서드 사용
+invokLamda {true} // 리턴형 직접 선언
+invokLamda {it >= 3.21 } // 람다식을 바로 구현해도 된다.
+```
+ 해당 예제 에서는 Double 타입을 파라미터로 받아 Boolean 값으로 값을 리턴해주는 람다식의 결과물을 리턴해주는 예제이다.
+
+
+
+
