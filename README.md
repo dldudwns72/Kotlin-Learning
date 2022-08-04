@@ -239,7 +239,7 @@ fun main(){
 }
 ```
 
-## 람다식 (Lamda)
+## 10. 람다식 (Lamda)
  value 처럼 사용할 수 있는 익명 함수
  1. 메소드에 파라미터로 람다식을 넘겨줄 수 있다.
  2. return 값으로 사용할 수 있다.
@@ -297,6 +297,15 @@ invokLamda {true} // 리턴형 직접 선언
 invokLamda {it >= 3.21 } // 람다식을 바로 구현해도 된다.
 ```
  해당 예제 에서는 Double 타입을 파라미터로 받아 Boolean 값으로 값을 리턴해주는 람다식의 결과물을 리턴해주는 예제이다.
+
+
+## 11. Data Class (POJO)
+toString(), hashCode(), equals(), copy() 메서드를 자동으로 생성하여 사용할 수 있는 Class
+```kotlin
+data class class명 (val ~ , var~ ...)
+```
+
+
 
 
 
