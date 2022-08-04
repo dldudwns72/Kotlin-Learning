@@ -305,6 +305,24 @@ toString(), hashCode(), equals(), copy() 메서드를 자동으로 생성하여 
 data class class명 (val ~ , var~ ...)
 ```
 
+## 12. private class, Companion
+private class 나 method를 읽을 수 있도록 하는 companion object, Java의 static
+```kotlin
+class class명 private construtor(val ~, val ~ ...){
+  companion object 생성메서드명 : 인터페이스 { // 이름 생략 가능, 이름을 넣는 순간 객체 생성시 Companion 선언 대신 생성한 이름으로 사용, 상속 가능
+    val myBook = "변수 선언"
+    fun create() = Book(getId(), myBook)
+
+    override fun getId(): Int {
+      return 55;
+    }
+  }
+}
+
+val 인스턴스명 = 클래스명.create()
+val 인스턴스명 = 클래스명.생성메서드명.create()
+val 변수 = 클래스명.getID() // 해당 값 참조
+```
 
 
 
