@@ -324,6 +324,15 @@ val 인스턴스명 = 클래스명.생성메서드명.create()
 val 변수 = 클래스명.getID() // 해당 값 참조
 ```
 
+## 13. object Class, SingleTon Pattern
+Java의 싱글톤 패턴과 같이, 하나의 객체가 전역적으로 사용되어 정보를 가지고 있을 떄 사용
+```kotlin
+object Class명 {
+    ....
+}
+val 인스턴스명 = Class명.메서드명()
+```
+생성된 인스턴스는 다른곳에서 전역적으로 사용 가능하다.
 
 
 
