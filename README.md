@@ -273,6 +273,9 @@ stringThing.extendWithAnotherType(intThing)
 // -> 호출 객체 다른 파라미터를 받을 수 있다 10 이것으로
 ```
 
+확장 함수를 사용하기 위해서는 그 함수를 다른 클래스나 함수와 마찬가지로 임포트 해야한다.
+import 패키지명.extendWithAnotherType (확장함수명)
+
 ### 람다의 Return
 ```kotlin
 val returnLamda : (Type) -> ReturnType = {
