@@ -274,7 +274,26 @@ stringThing.extendWithAnotherType(intThing)
 ```
 
 확장 함수를 사용하기 위해서는 그 함수를 다른 클래스나 함수와 마찬가지로 임포트 해야한다.
-import 패키지명.extendWithAnotherType (확장함수명)
+확장 함수의 이름이 같다면 import 시 as를 사용하여 별칭을 붙혀 이름을 다르게 하여 임포트 해야한다.
+import 패키지명.extendWithAnotherType (확장함수)
+
+
+확장 함수는 클래스 밖에서 선언되며 호출 시 수신 객체로 지정한 변수의 정적 타입에 의해 호출이 결정되므로 확장 함수는 오버라이드 될 수 없다.
+
+### 확장 프로퍼티
+프로퍼티도 확장 가능하나 상태를 저장 할 수 없어 최소한 getter는 정의해주어야 한다.
+```kotlin
+var String.lastChar: Char
+  get() = get(length - 1) // getter 정의
+  set(value : Char) {
+      this.setCharSet(length - 1, value)
+  }
+
+println("String값".lastChar) // >>> n
+val sb = StringBuilder("Kotlin?") 
+sb.lastChar = "!" // (setter로 설정한 로직을 탐)
+println(sb) // >>> Kotlin!
+```
 
 ### 람다의 Return
 ```kotlin
