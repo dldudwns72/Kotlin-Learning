@@ -374,5 +374,53 @@ val 인스턴스명 = Class명.메서드명()
 생성된 인스턴스는 다른곳에서 전역적으로 사용 가능하다.
 
 
+## 14. Type
+코틀린에서는 변수 타입이 추론 가능하여 변수의 타입을 알 수 있다.
+하지만 자바와 달리 작은 타입 + 큰 타입에 대해 자동으로 변환하여 더하여 값을 주지 않는다 (암시적 변경 불가능)
+그러하여 to변환타입()을 사용해야 합니다.
+
+### 기본 타입 변환
+```kotlin
+val number1 = 3
+val number2 : Long = number1.toLong()
+```
+
+### 타입 캐스팅
+```kotlin
+fun printAgeIfPerson(obj : Any){
+    if ( obj is Person){  // !is
+        val person = obj as Person // as?
+        println(person) // smart cast
+    }
+}
+```
+- (!)is : Java에서 instanceOf와 동일, obj가 Person이라면 true, 아니면 false, 느낌표(!) 를 앞에 붙이면 반대 의미 <br/>
+value <strong>is</strong> Type : value 가 Type 이면 true, 아니면 false
+
+- as(?) : Java에서 타입 캐스팅과 동일, obj라는 변수를 Person 타입이라 간주한다.<br/>
+물음표(?) 가 붙을 경우 obj가 null 이 아니라면 Person 타입으로 변화를 시키고, null 이라면 safe call 처럼 전체 null이 되는 것 <br/>
+
+### 코틀린 특이 타입
+#### 1. Any
+- Java의 Object class 역할 (모든 객체의 최상위 타입)
+- 모든 Privitive Type의 최상의 타입도 Any이다. 
+- Any 자체로는 null을 포함할 수 없어 null을 포함하고 싶다면, Any? 로 표현
+- Any 에 equals / hasCode / toString 존재
+
+#### 2. Unit
+- Java의 void 역할 (모든 객체의 최상위 타입)
+- void와의 차이점은 Unit 그 자체로 타입 인자로 사용 가능
+- 함수형 프로그래밍에서 Unit은 단 하나의 인스턴스만 갖는 타입, 코틀린의 Unit은 실제 존재하는 타입
+
+#### 3. Noting
+- 함수가 정상적으로 끝나지 않았다는 사실을 표현하는 역할
+- 무조건 예외를 반환하는 함수 / 무한루프 함수 등
+```kotlin
+fun fail(message : String) : Nothing {
+    throw java.lang.IllegalArgumentException(message)
+}
+```
+
+
 
 
