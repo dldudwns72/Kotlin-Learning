@@ -163,23 +163,40 @@ println(notNull?.length) // 불필요한 Safe Call
 println(a?.b?.c?.d?.length) // 해당 객체들 중 null이 하나라도 있다면 null 리턴
 ```
 
+null이 아니면 실행하고, null이면 실행하지 않는다 (그대로 null)
+
 ### 앨비스 연산자 ?:
-null 일 경우 대체 변수를 넣어주는 경우 사용하는 연산자
+앞의 결과가 null 일 경우 대체 변수(값)를 넣어주는 경우 사용하는 연산자
 ```kotlin
 var lastName : String? = null
 val noFullName = name + (lastName ?: " No LastName")
 // lee No LastName
+
+if(njmber == null) { return 0 }
+number ?: return 0 // 위에 형태가 이와 같은 형태로 같이 사용할 수 있다. (Ealry Return)
 ```
 
 ### !! 연산자
 변수가 확실하게 null 이 아닐 경우 사용하는 연산자, null이 아닌것을 보장
 EX) String? 타입을 String 타입에 할당하려 하는 경우 컴파일 에러가 발생하지만 !! 연산자 사용시 컴파일 성공
+하지만 null 값이 들어온다면 런타임시 NPE 예외 발생
 ```kotlin
 fun ignoreNull(str: String?): String {
   val mNotNull: String = str!! 
   // String? 타입인 변수 str이 String 타입인 변수에게 할당하기 위해 null이 아님을 보장하기 위해 !! 사용
   return mNotNull.uppercase()
 }
+```
+
+### 플랫폼 타입
+```kotlin
+JAVA
+// null 제어 여부에 따라 코틀린에서 어노테이션을 이해하고 null 체크가 일어난다, 어노테이션이 없다면 컴파일 시 에러는 안나지만 런타임시 에러가 발생할 수 있다.
+@NotNull, @Nullable, X 
+public String getName() {
+    return name;
+}
+
 ```
 
 ## 9. Class
