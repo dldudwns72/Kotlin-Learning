@@ -242,6 +242,61 @@ public String getName() {
 
 - 기본적으로 constructor을 사용하는 것 보다 주 생성자에 default parameter 값을 넣어 사용하는 것을 추천한다
 
+### 추상 클래스
+코틀린도 자바와 마찬가지로 abstract를 사용하여 추상 클래스를 만든다.
+추상클래스이니깐 변수는 final로 간주 되어서 val 로 선언을 해야한다.
+```kotlin
+abstract class Animal(
+    protected val species: String, 
+    protected open val legCount: Int // 해당 변수를 open 해주지 않으면 외부에서 변경할 수 없다.
+){
+    abstract fun move(){
+        
+    }
+}
+
+class Cat(
+  species: String
+) : Animal(species, 4){ // Cat 객체 생성 시 주 생성자에서 받은 변수 species를 사용하고 legCount는 선언 해준 값으로 넣어준다.
+  override fun move(){
+    println("~~~~")
+  }
+  
+  private val tailCount = 1
+  
+  override val tailCount: Int 
+    get() = super.legCount + this.tailCount // open 키워드를 사용하여 외부로의 확장을 해주어야 한다. 
+}
+```
+클래스를 상속 받을때도 변수 처럼 콜론(:)를 사용하지만 컨벤션으로 변수는 변수명 바로 옆에, 상속은 한칸 띄고 콜론을 선언한다.
+또한 자바와 코틀린은 추상클래스는 인스턴스화 할 수 없다.
+상위 클래스를 설계할 때 생성자 또는 초기화 블록에 사용되는 프로퍼티에는 open을 피해야 합니다.
+
+### Interface
+사용 목적은 자바와 동일하다
+```kotlin
+interface interface명{
+  fun 메소드{
+        
+  }
+  fun 디폴트메소드(){
+      
+  }
+}
+--------------------------------------------
+class 클래스명() : 인터페이스 {
+    
+    override fun 인터페이스선언메서드명() {
+        super<인터페이스>.인터페이스선언메서드명()
+    }
+}
+```
+Java의 디폴트 메소드와 같이 사용할 수 있으며 코틀린은 앞에 default를 선언해주지 않아도 된다.
+사용 방법은 추상클래스와 같이 콜론(:)을 이용하여 사용할 수 있으며 중복되는 인터페이스를 특정할 떄 super<타입>.함수 를 사용한다.
+또한 인터페이스 내부에서 custom getter를 사용하여 변수의 값을 선언할 수 있다.
+
+
+
 ### 상속
 ```kotlin
 class 서브클래스 : 슈퍼클래스(){
