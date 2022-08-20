@@ -49,6 +49,16 @@ prinln("name is ${name + lastName} 입니다.") // name is LEEYJ 입니다.
     - 범위를 지정하여 값을 분기할때는 in 시작값 .. 끝값 사용
 - ConditionalTest 참조
 
+### When
+```kotlin
+when{
+  number == 0 -> println("숫자는 0")
+  number %2 == 0 -> println("숫자는 짝수")
+  else -> println("노 숫자")
+}
+```
+위 처럼 when( ) 괄호 안에 값이 없을 경우 조건을 주어 분기를 나눌 수 있다.
+
 ## 6. Array and List
 ### 1. Array
  - 타입을 섞어 여러가지 타입의 요소를 배열에 담을 수 있다.
@@ -202,15 +212,17 @@ public String getName() {
 ## 9. Class
 ### 생성방법
 ```kotlin
-// 
+                    // 주 생성자
 (open) class class명(name : String){
   
-  // 주 생성자
   init {
-       
+       클래스가 초기화 되는 시점에 한번 실행되는 블록, validation 로직을 넣기 좋다
+    if(number >=0){
+        throw new IllgelArgumentException()
+    }
    } 
   
-  // 부 생성자
+  // 부 생성자, 다른 생성자를 만들기 위해 사용함, 최종적으로는 주 생성자를 호출하기 위해 사용
   constructor(val name : String, val age : Int) : this(name){
       
   }
@@ -226,6 +238,9 @@ public String getName() {
 4. init 이외의 추가 생성자를 하는 방법으로 constructor 명령어를 사용하여 생성자 추가로 생성 가능 (init이 없다면 constructor으로만 생성자 생성 가능)
 5. constructor 에서 좌측에 this 선언 후 클래스에서 파라미터로 사용하는 변수명을 쓸 경우 해당 변수를 사용 가능
 6. 메소드 선언 시에 해당 메소드를 다른 클래스에서 override 할 경우 open 명령어를 통하여 외부에 노출 가능하도록 해야 한다.
+
+
+- 기본적으로 constructor을 사용하는 것 보다 주 생성자에 default parameter 값을 넣어 사용하는 것을 추천한다
 
 ### 상속
 ```kotlin
@@ -255,6 +270,48 @@ fun main(){
     korean.Korea클래스의 메서드        
 }
 ```
+
+### custom getter
+property 처럼 사용하기 위해 get() 을 선언하고 값을 넣어준다
+기존의 get과 다 동일한 기능이지만 가독성에 따라 할 수 있는 방법으로 사용하면 된다
+
+- 프로퍼티(property) : 필드 생성시 getter,setter가 있는 변수를 프로퍼티라 칭한다.
+```kotlin
+class Person (
+  name: String, // 여기서 var,val 을 선언하면 자동으로 get,set이 생긴다.
+  var age: Int
+  ){   
+  
+// JAVA
+public boolean isAudult(){
+    return this.age >= 20
+}
+
+// Kotlin
+fun isAdult(): Boolean {
+    return this.age > 20
+}
+혹은
+val isAdult: Boolean
+ get() = this.age >= 20 // property 처럼 보이는 custom getter
+  
+// backing field  
+  val name: String = name 
+    get() = field.uppercase()
+  
+  var name = name // set이므로 var로 선언
+    set(value){
+        field = value.uppercase() // 들어오는 값을 모두 대문자로 바꿔서 set 한다.
+    }
+  
+}
+
+```
+cutsom getter를 사용하여 파라미터로 통해 넘어온 값을 변경하여 get을 반환할 수 있다.
+주 생성자에 있는 변수에 값을 할당해주기 위해 body안에서 변수를 다시 선언하고 get body 부분에 <strong>field</strong>를 선언해주어 해당 변수에 접근을 하며
+값을 바꾸는 로직을 설정한 후 식을 마무리 하면 get 시 값이 변경되서 적용된다.
+
+하지만 backing field를 사용하는 것 보단 별도의 함수를 만들어서 프로퍼티를 변경하는것이 좋다라고 생각된다.
 
 ## 10. 람다식 (Lamda)
  value 처럼 사용할 수 있는 익명 함수
@@ -421,6 +478,82 @@ fun fail(message : String) : Nothing {
 }
 ```
 
+#### 객체간 비교 연산자
+객체간 비교 연산을 하는 경우 코틀린에서는 객체1 > 객체2 로 선언 했을 경우 자동으로 compareTo를 호출하여 사용한다.
+```kotlin
+val money1 = Money(1000)
+val money2 = money1
+val money3 = Money(2000)
+
+money1 > money3 // compareTo 호출하여 비고
+money1 === money2 // 동등성 비교 ( 값이 같은지)
+money1 == money3 // 동일성 비교 (주소값이 같은지, Java의 equals 호출)
+```
+
+## 예외 처리
+
+### 1. trt catch finally 
+```kotlin
+try {
+    ~~
+}catch (e : Exception){
+    throw IllegalArgumentException("잘못된 인자 입력")
+}
+```
+문법적으로는 java try catch finally 완전 동일
+타입이 뒤에 위치하고 있으며, new 연산자를 사용하지 않고 포맷팅이 간결하다
+
+```kotlin
+fun parseIntOrThrow(str: String): Int? {
+  return try {
+      str.toInt()
+  }catch (e : Exception){
+      throw IllegalArgumentException("잘못된 인자 입력")
+  }
+}
+```
+try ~ catch 가 expression 으로 표현 될 수 있다
+
+### 2. Checked Exception, Unchecked Exception
+코틀린은 모두 Unchecked Exception 으로 처리가 된다.
+throws를 하지 않는다.
+?? 먼내용이지
 
 
+### 3. try with resources
+코틀린에서는 자바 처럼 정식적으로 try with resource 라는 구문은 없다
+use를 사용하여 같은 기능을 구현한다.
+```kotlin
 
+```
+
+### default parameter
+```kotlin
+fun repeat(str: String, num: Int = 3, isUse : Boolean = false){
+    
+}
+repeat("REPEAT") // repeat("REPEAT",3,false) 와 동일
+```
+밖에서 파라미터를 넣어주지 않는다면 파라미터 값에 넣은 기본값을 사용한다.
+
+### named argument
+```kotlin
+fun repeat(str: String, num: Int = 3, isUse : Boolean = false){
+    
+}
+repeat("REPEAT", isUse = true)  //repeat("REPEAT",3,true) 와 동일
+```
+인자에 변수명을 같이 선언해주어 값을 설정 할 수 있다 (변수의 순서와 상관없이)
+빌더패턴처럼 사용할 수 있다
+해당 문법은 Java 에서는 사용할 수 없다.
+
+### 같은 타입의 여러 파라미터 받기 (가변인자)
+```kotlin
+fun method(vararg strings: String){
+    
+}
+val array = arrayOf("a","b","c")
+method(*array)
+```
+vararg를 사용하여 가변인자를 받을 수 있으며, 
+가변인자 함수를 배열과 호출할 떄는 배열을 바로 넣는 대신 스프레드 연산자(*)를 붙여주어야 한다.
