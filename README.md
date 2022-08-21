@@ -457,23 +457,40 @@ data class class명 (val ~ , var~ ...)
 ```
 
 ## 12. private class, Companion
-private class 나 method를 읽을 수 있도록 하는 companion object, Java의 static
+private class 나 method를 읽을 수 있도록 하는 companion object, Java의 static과 같은 기능 <br/>
+companion object (동반 객체)는 하나의 객체로 간주되어 이름을 붙일 수도 있고, interface를 구현할 수도 있다.
 ```kotlin
 class class명 private construtor(val ~, val ~ ...){
   companion object 생성메서드명 : 인터페이스 { // 이름 생략 가능, 이름을 넣는 순간 객체 생성시 Companion 선언 대신 생성한 이름으로 사용, 상속 가능
     val myBook = "변수 선언"
     fun create() = Book(getId(), myBook)
-
+    
+    
     override fun getId(): Int {
       return 55;
     }
   }
+
+  val 인스턴스명 = 클래스명.create()
+  val 인스턴스명 = 클래스명.생성메서드명.create()
+  val 변수 = 클래스명.getID() // 해당 값 참조
+  ------------------------------------
+  companion object {
+    private const val MIN_AGE = 1
+    
+   @JvmStatic
+   fun jvmStaticFun(): 리턴타입 {
+       return ~
+   }
+  }
+  
+  val 인스턴스명 = 클래스.jvmStaticFun() // @JvmStatic을 선언하지 않으면 클래스.Companion.jvmStaticFun 으로 선언 해야 한다.
 }
 
-val 인스턴스명 = 클래스명.create()
-val 인스턴스명 = 클래스명.생성메서드명.create()
-val 변수 = 클래스명.getID() // 해당 값 참조
 ```
+중간에 있는 코드 "private const val MIN_AGE = 1" 코드는 companion object안에서 사용 가능한 변수 이다<br/>
+
+@JvmStatic 어노테이션을 사용한다면 companion object 에 이름을 할당해 주지 않아도 클래스 선언 후 바로 사용할 수 있다.
 
 ## 13. object Class, SingleTon Pattern
 Java의 싱글톤 패턴과 같이, 하나의 객체가 전역적으로 사용되어 정보를 가지고 있을 떄 사용
@@ -484,6 +501,18 @@ object Class명 {
 val 인스턴스명 = Class명.메서드명()
 ```
 생성된 인스턴스는 다른곳에서 전역적으로 사용 가능하다.
+
+### 익명 클래스
+특정 인터페이스나 클래스를 상속받은 구현체를 일회성으로 사용할 떄 쓰는 클래스<br/>
+코틀린에서는 "object: 타입이름" 를 사용하여 익명 클래스를 선언한다.
+```kotlin
+moveSomething(object: Moveable {
+    override fun move(){
+        println("움직인다.")
+    }
+})
+```
+Java에서는 인자로 new Moveable 해서 익명클래스를 구현하여 인자로 넘겨주었지만 kotlin 에서는 위 코드처럼 구현하여 동작한다.
 
 
 ## 14. Type
