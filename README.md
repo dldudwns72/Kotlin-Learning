@@ -612,3 +612,22 @@ method(*array)
 ```
 vararg를 사용하여 가변인자를 받을 수 있으며, 
 가변인자 함수를 배열과 호출할 떄는 배열을 바로 넣는 대신 스프레드 연산자(*)를 붙여주어야 한다.
+
+## 접근 제어자
+코틀린은 자바와 달리 패키지로 관리되는 것이 아닌 C#의 namespace 처럼 파일로 관리 된다 <br/>
+그러하여 접근 제어를 선언해주는 방법이 JAVA랑 약간 다르다
+생성자에 접근 지시어를 붙일 때는 constructor를 명시적으로 써주어야 한다.
+
+### 1. public
+모든 곳에서 접근 가능
+### 2. protected 
+선언된 클래스 또는 하위 클래스에서만 접근 가능 <br/>
+자바에서의 같은 패키지에서 사용 가능하다는 제어가 사라짐
+### 3. internal
+같은 모듈에서만 접근 가능
+### 4. private
+선언된 클래스 내에서만 접근 가능
+
+### java와 kotlin을 함께 사용할 때 주의할 점
+Internal은 바이트코드 상 public이 되므로 Java 코드에서는 Kotlin 모듈의 Internal 코드를 가져올 수 있습니다.
+또한 Kotlin의 protected와 Java의 protected는 다르며, Java는 같은 패키지의 Kotlin protected 멤버에 접근할 수 있다.
