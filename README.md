@@ -456,6 +456,67 @@ toString(), hashCode(), equals(), copy() 메서드를 자동으로 생성하여 
 data class class명 (val ~ , var~ ...)
 ```
 
+### Enum Class
+추가적인 클래스를 상속 받을 수 없으며, 인터페이스는 구현할 수 있으며, 각 코드가 싱글톤인 상태가 ENUM 이다.
+```kotlin
+enum class Country(
+  private val code: String
+){ 
+  KOREA("KO"),
+  AMERICA("US")
+}
+```
+
+```java
+public enum Country{
+  KOREA("KO"),
+  AMERICA("US")
+  ;
+  
+  private final String code;
+
+  Country(String code){
+      this.code = code;
+  }
+}
+```
+위의 코틀린 enum class와 java enum 클래스는 동일한 내용의 코드이다 
+
+Enum에 대한 분기처리를 할 때 코틀린에서는 when을 사용해서 가독성 있는 분기처리를 할 수 있다.
+```kotlin
+fun handleCountry (country: Country){
+    when(country){
+      Country.KOREA -> TODO()
+      Country.AMERICA -> TODO()
+      // else -> // 해당 구문을 선언하지 않아줘도 된다 이미 enum값 내부를 알고 있으므로 
+    }
+}
+```
+
+### Sealed Class, Sealed Interface
+Enum 클래스 보다 유연하지만, 하위 클래스를 제한 하는 sealed class <br/>
+컴파일 타임 때 하위 클래스의 타입을 모두 기억한다 즉 런타임때 클래스 타입이 추가 될 수 없다. <br/>
+하위 클래스는 같은 패키지에 있어야 한다. Enum 과 다른점은 클래스를 상속 받을 수 있으며, 하위 클래스는 멀티 인스턴스가 가능하다.
+
+추상화가 필요한 Entity or DTO에 sealed class를 활용한다.
+```kotlin
+sealed class Car(
+  val name: String,
+  val price: Long
+)
+
+class Avante: Car("아반떼",2000)
+class Sonata: Car("소나타",3000)
+
+------------------------------
+fun 함수(car: Car)
+when (car){
+    is Avante -> TODO()
+    is Sonata -> TODO()
+}
+```
+
+
 ## 12. private class, Companion
 private class 나 method를 읽을 수 있도록 하는 companion object, Java의 static과 같은 기능 <br/>
 companion object (동반 객체)는 하나의 객체로 간주되어 이름을 붙일 수도 있고, interface를 구현할 수도 있다.
@@ -524,7 +585,7 @@ Java에서는 인자로 new Moveable 해서 익명클래스를 구현하여 인�
 #### 2.static 내부 클래스 (권장)
  - 내부클래스 선언 시 static을 사용
  - 코틀린에서는 static 이 없기 때문에 그냥 내부 클래스로 선언해도 코틀린은 바깥 클래스에 대한 연결이 없는 중첩 클래스가 만들어진다.
- 
+
 ## 14. Type
 코틀린에서는 변수 타입이 추론 가능하여 변수의 타입을 알 수 있다.
 하지만 자바와 달리 작은 타입 + 큰 타입에 대해 자동으로 변환하여 더하여 값을 주지 않는다 (암시적 변경 불가능)
