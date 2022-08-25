@@ -452,6 +452,36 @@ inline 함수의 사용은 성능 측정과 함께 신중하게 사용되어야 
 ### 지역함수
 함수 내부에 비슷하게 사용되는 로직이 있다면 해당 내용을 다시 함수로 만들어 사용할 수 있다.
 
+### 람다
+이름없는 함수 
+```kotlin
+val isApple: (Fruit) -> Boolean = fun(fruit: Fruit) : Boolean {
+    return fruit.name == "사과"
+}
+==
+
+val isApple2:  (Fruit) -> Boolean = {fruit: Fruit -> fruit.name == "사과"}
+
+// fruit 리스트와 리스트를 필터링하는 함수를 파라미터로 받아 필터링된 fruit를 반환하는 함수
+private fun filterFruits(fruits: List<Fruit>, filter: (Fruit) -> Boolean): List<Fruit> {
+    val result = mutableListOf<Fruit>()
+    for (fruit in fruits) {
+        if(filter.invoke(fruit)){
+            results.add(fruit)
+        }
+    }
+  return results
+}
+
+// 함수가 제일 마지막 파라미터로 설정 될 경우 아래와 같이 파라미터 부분에 함수를 넣지 않고 소괄호 밖에 람다를 사용 가능하다.
+filterFruits(fruits) { it.name == "사과"} // it은 변수가 하나일 경우만 사용 가능
+```
+함수의 이름을 선언하지 않고 해당 리턴을 그대로 변수로 사용할 수 있다. <br/>
+그러므로 변수에 할당한 함수를 파라미터로 사용할 수 있고, 익명 클래스처럼 바로 파라미터에 선언해서 사용할 수 있다.
+
+함수의 타입 : (파라미터 타입 ...) -> 반환 타입 <br/>
+
+
 ### 람다의 Return
 ```kotlin
 val returnLamda : (Type) -> ReturnType = {
@@ -476,6 +506,7 @@ invokLamda {true} // 리턴형 직접 선언
 invokLamda {it >= 3.21 } // 람다식을 바로 구현해도 된다.
 ```
  해당 예제 에서는 Double 타입을 파라미터로 받아 Boolean 값으로 값을 리턴해주는 람다식의 결과물을 리턴해주는 예제이다.
+
 
 
 ## 11. Data Class (POJO)
