@@ -507,6 +507,41 @@ invokLamda {it >= 3.21 } // 람다식을 바로 구현해도 된다.
 ```
  해당 예제 에서는 Double 타입을 파라미터로 받아 Boolean 값으로 값을 리턴해주는 람다식의 결과물을 리턴해주는 예제이다.
 
+## 다양한 컬렉션 처리 기능
+
+### filter & map
+- filter : 리스트.filter { 식 } , 요소 내부 조건이 만족하는 요소만 찾아 배열로 반환, filterIndexed를 사용하여 인덱스를 같이 사용할 수 있다.
+- map :  리스트.map{ 식 }, 리스트 내부를 돌면서 값을 변환 시켜주어 새로운 배열로 반환하는 함수, mapIndexed를 사용하여 인덱스를 같이 사용할 수 있다.
+- mapNotNull : null이 아닌 결과만 가져오고 싶을 때 사용하는 함수
+
+### all & none & any
+- all : 리스트.all { 조건 } , 조건을 모두 만족하면 true, 아니면 false
+- none : 리스트.none { 조건 } , 조건을 모두 불만족하면 true, 아니면 false
+- any : 리스트.any { 조건}, 조건을 하나라도 만족하면 true, 그렇지않으면 false
+
+### count & sortedBy & distinctBy
+- count : 리스트.count(), 리스트의 크기 반환
+- sortedBy : 리스트.sortedBy { 선언된 변수 }, 선언된 변수 기준으로 오름차순 정렬
+- sortedByDescending : sortedBy의 반대, 내림차순
+- distinctBy : 리스트.distinctBy { 중복 제거할 식}, 변형된 값을 기준으로 중복을 제거한다.
+
+### first & last
+- first : list.first(), 첫번째 값을 가져온다 (무조건 null이 아니어야함), list가 빈 경우 Exception 발생
+- firstOrNull: list.firstOrNull(), 첫번째 값 또는 null을 가져온다
+- last : list.last(), 마지막 값을 가져온다 (무조건 null이 아니어야함), list가 빈 경우 Exception 발생
+- lastOrNull: list.lastOrNull(), 마지막 또는 null을 가져온다
+
+### List -> Map groupBy (그루핑)
+```kotlin
+val map: Map<String, List<Fruit>> = fruits.groupBy { fruit -> fruit.name}
+```
+과일이름 (fruit.name) 기준으로 키가 생성되고 value 값으로 해당 과일이름에 대한 리스트 생성
+
+### id -> Map associateBy (그루핑)
+```kotlin
+val map: Map<String, Fruit> = fruits.associateBy { fruit -> fruit.id}
+```
+중복되지 않는 키를 가지고 map을 만들 때 사용된다.
 
 
 ## 11. Data Class (POJO)
