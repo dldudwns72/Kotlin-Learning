@@ -825,3 +825,90 @@ vararg를 사용하여 가변인자를 받을 수 있으며,
 ### java와 kotlin을 함께 사용할 때 주의할 점
 Internal은 바이트코드 상 public이 되므로 Java 코드에서는 Kotlin 모듈의 Internal 코드를 가져올 수 있습니다.
 또한 Kotlin의 protected와 Java의 protected는 다르며, Java는 같은 패키지의 Kotlin protected 멤버에 접근할 수 있다.
+
+
+## Type Alias &  as Import
+### 1. Type Alias
+```kotlin
+typealias FruitFilter = (Fruit) -> Boolean
+
+fun filterFruits(fruits: List<Fruit>, filter: FruitFilter) { // (Fruit) -> Boolean
+    
+}
+
+-----------------------------------------
+data calss 이름이긴클래스이다(
+  val name: String
+)
+
+typealias USGTMap = Map<String, 이름이긴클래스이다>
+```
+이름이 긴 클래스를 컬렉션에 사용하거나, 반환형이 길 경우 별칭을 주어 간단하게 사용 할 수 있다.
+
+### 2. as Import
+```kotlin
+import package경로~~~ as 별칭
+```
+다른 패키지의 동일한이름의 다른 함수를 사용하고 싶을 떄 별칭을 주어 구분하는 것으로 as 뒤에 별칭으로 import 한 내용을 사용한다.
+
+
+## forEach 에서의 break & continue
+### break
+```kotlin
+run {
+    numbers.forEach { number -> if(number ==2) { return@run } }
+}
+```
+
+굳이 forEach안에서 break 조건을 걸고 싶다면, run 안에 선언해주고 break 부분에 return@run을 명시한다.
+
+### continue
+```kotlin
+    numbers.forEach { number -> if(number ==2) { return@forEach } }
+```
+굳이 forEach안에서 continue 조건을 걸고 싶다면 break 부분에 return@forEach 명시한다. <br/>
+
+하지만 웬만하면 for문안에 기존에 사용하던 for문 안에서 처리하는것이 좋다.
+
+
+## Label@
+```kotlin
+loop@ for(i in 1..100){
+    for(j in 1..100){
+        if(j == 2){
+            break@loop
+        }
+    }
+  println("${i} , ${j}") // 1 , 1
+}
+```
+for 문 선언 전에 라벨 표기 후 for문 안에서 break@라벨명 시 안쪽 for문에서 멈추는 것이 아닌 바깥쪽 for문에서 반복이 중지됩니다. 하지만 사용하지 않는것을 추천합니다.
+
+
+## method chaning 을 위한 TakeIf & TakeUnless
+### TakeIf
+```kotlin
+fun getNumberOrNull(): Int? {
+    return if(number <= 0){
+        null
+    } else {
+        number
+    }
+}
+
+========= 동일한 코드 ===================
+
+fun getNumberOrNull(): Int? {
+    return number.takeIf { it > 0} // 참이면 number 반환, 아니면 null 반환
+}
+
+```
+주어진 조건을 만족하면 그 값이, 그렇지 않으면 null이 반환된다.
+
+### TakeUnless
+```kotlin
+fun getNumberOrNull(): Int? {
+    return number.takeUnless { it <= 0} // 참이면 null 반환, 아니면 number 반환
+}
+```
+주어진 조건을 만족하지 않으면 그 값이, 그렇지 않으면 null이 반환된다.
