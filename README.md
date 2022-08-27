@@ -404,6 +404,8 @@ stringThing.extendWithAnotherType(intThing)
 
 확장 함수를 사용하기 위해서는 그 함수를 다른 클래스나 함수와 마찬가지로 임포트 해야한다. <br/>
 확장 함수의 이름이 같다면 import 시 as를 사용하여 별칭을 붙혀 이름을 다르게 하여 임포트 해야한다. <br/>
+확장 함수에서는 본인 자신을 this로 호출하고, 생략 가능하다 <br/>
+
 import 패키지명.extendWithAnotherType (확장함수) <br/>
 해당 변수의 현재 타입 즉, 정적인 타입에 의해 어떤 확장함수가 호출될지 결정된다. EX) 변수: 반환타입 (정적 타입) = 값 이르 봤을 떄 반환 타임에 대하여 확장함수 호출함  <br/>
 
@@ -912,3 +914,55 @@ fun getNumberOrNull(): Int? {
 }
 ```
 주어진 조건을 만족하지 않으면 그 값이, 그렇지 않으면 null이 반환된다.
+
+
+## Scope Function 
+- 람다를 사용해 일시적인 영역을 만들고, 코드를 더 간결하게 만들거나, method chaning에 활용하는 함수를 뜻함
+
+### let
+- 람다의 결과를 나타내는 let
+- 파라미터를 일반 함수로 받아 함수 내부를 사용하므로 it을 사용 
+- 하나 이상의 함수를 call chain 결과로 호출 할 때
+- non-null 값에 대해서만 code block를 실행 시킬 떄 (많이 사용됨)
+- 일회성으로 제한된 영역에 지역 변수를 만들 떄
+
+### run
+- 람다의 결과를 나타내는 run
+- 파라미터를 확장 함수로 받아 본인 자신을 this로 호출하고 생략할 수 있다 , this를 사용
+- 객체 초기화와 반환 값의 계산을 동시에 해야할 떄 EX) 객체를 만들어 DB에 바로 저장하고 저장하고 난 뒤의 인스턴스를 활용할 떄
+
+### also
+- 객체 그 자체가 반환된다, it을 사용
+- 객체를 수정하는 로직이 call chain 중간에 필요할 때 (객체 수정 중 중간 로직을 추가하고 싶을 떄)
+
+### apply
+- 객체 그 자체가 반환된다, this를 사용
+- 객체를 수정하는 로직이 call chain 중간에 필요할 때 (값을 설정해주고 해당 객체를 반환해 줄 떄) 
+
+### it 과 this의 차이점
+this : 생략이 가능한 대신, 다른 이름을 붙일 수 없다.  EX) person.run { age } // this.age를 사용하지 않고 age만을 사용 가능 
+it : 생략이 불가능한 대신, 다른 이름을 붙일 수 있다.  EX) person.let { p -> p.age } // it 대신 p를 사용
+
+```kotlin
+val value1 = person.let {
+    it.age
+}
+
+val value2 = person.run {
+  this.age
+}
+=========value1,value2는 람다의 결과인 age를 나타냄 ============
+
+val value3 = person.let {
+  it.age
+}
+
+val value4 = person.let {
+  this.age
+}
+=========value3,value4는 객체 자체인 persion을 최종값으로 리턴 ============
+```
+
+### with(파라미터, 람다)
+- this를 사용해 접근하고, this는 생략 가능하다.
+- 특정 객체를 다른 객체로 변환해야 하는데, 모듈 간의 의존생에 의해 정적 팩토리 혹은 toClass 함수를 만들기 어려울  
