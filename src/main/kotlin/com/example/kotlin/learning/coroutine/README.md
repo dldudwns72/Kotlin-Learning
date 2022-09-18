@@ -24,4 +24,32 @@
 - 별도의 callback, Thread 를 사용하지 않고도 별도의 루틴이 생성되어 위와 같은 상황을 해결할 수 있다.
 
 
+## Coroutine Builder
+### 1. GlobalScope.launch
+ - 전역 scope 안에서 coroutine 을 만들어 실행 시킨다. 
+ - main 스레드를 멈추지 않고 스코프 안에서만 멈춘다.
+### 2. RunBlocking
+ - main thread 를 멈추게 한다 (blocking)
+ - runBlocking 안에서 다른 thread를 실행할 수 있다.
 
+
+## suspend fun
+- coroutine 에서 일시중단 지점을 찾기 위해 사용되는 함수
+
+
+## CANCEL
+- 코루틴이 실행됨에 있어서 해당 코루틴을 취소 시키는 방법
+- 코루틴 취소를 위해서는 코루틴 안에 일시 중단하는 함수(suspend) 함수가 선언 되어 있어야 취소 할 수 있다.
+- yield() 함수를 통해 중단 함수를 선언 해 줄 수 있다.
+- cancel 될 때 해당 job 에서 Exception 을 던져준다. 그래서 try catch 로 처리 후 해당 코루틴이 취소 되었는지 파악 할 수 있다.
+- 혹은 코루틴의 JOB 이 실행중인지 알 수 있는 isActive 를 활용하여 중단된 코루틴인지 확인할 수 있다.
+
+### 1. JOB CANCEL
+- job cancel()
+
+### 2. 취소는 협동적이여야 한다.
+- 취소 시키는 job 에는 중단 함수(suspend) 가 선언 되어 있어야 취소 할 수 있다.
+- 혹은 isActive 를 사용하여 해당 job 이 실행중인지 파악한 후 job 내부 로직을 실행할 수 있다
+
+### 3. TimeOut
+- withTimeout or withTimeoutOrNull 을 사용하여 시간 설정을 해준 후 job을 시간을 확인하여 취소를 해준다.
