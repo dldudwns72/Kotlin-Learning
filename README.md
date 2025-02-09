@@ -953,11 +953,11 @@ val value2 = person.run {
 }
 =========value1,value2는 람다의 결과인 age를 나타냄 ============
 
-val value3 = person.let {
+val value3 = person.also {
   it.age
 }
 
-val value4 = person.let {
+val value4 = person.apply {
   this.age
 }
 =========value3,value4는 객체 자체인 persion을 최종값으로 리턴 ============
